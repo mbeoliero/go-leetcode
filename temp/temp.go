@@ -1,6 +1,9 @@
 package temp
 
-import "sort"
+import (
+	"math"
+	"sort"
+)
 
 func reverseWords(s string) string {
 	r := []rune(s)
@@ -264,3 +267,233 @@ func isValid(board [][]byte, i, j int, ch byte) bool {
 	}
 	return true
 }
+
+// func heapify(nums []int, i, length int) {
+// 	largest := i
+// 	left, right := 2*i+1, 2*i+2
+
+// 	if left < length && nums[largest] < nums[left] {
+// 		largest = left
+// 	}
+// 	if right < length && nums[largest] < nums[right] {
+// 		largest = right
+// 	}
+
+// 	if largest != i {
+// 		swap(nums, i, largest)
+// 		heapify(nums, largest, length)
+// 	}
+// }
+
+func partition(nums []int, left, right int) int {
+	pivot := nums[left]
+	for left < right {
+		for left < right && nums[right] > pivot {
+			right--
+		}
+		nums[left] = nums[right]
+
+		for left < right && nums[left] <= pivot {
+			left++
+		}
+		nums[right] = nums[left]
+	}
+
+	nums[left] = pivot
+	return left
+}
+
+// func findKthLargest(nums []int, k int) int {
+// 	nlen := len(nums)
+// 	p := partition(nums, 0, nlen-1)
+// 	if nlen-p == k {
+// 		return nums[p]
+// 	}
+
+// 	left, right := 0, nlen-1
+// 	for nlen-p != k {
+// 		if nlen-p > k {
+// 			left = p + 1
+// 		} else if nlen-p < k {
+// 			right = p - 1
+// 		}
+
+// 		p = partition(nums, left, right)
+// 	}
+// 	return nums[p]
+// }
+
+func swap(nums []int, i, j int) {
+	nums[i], nums[j] = nums[j], nums[i]
+}
+
+func heapify(nums []int, i int, nlen int) {
+	small := i
+	left, right := 2*i+1, 2*i+2
+	if left < nlen && nums[small] > nums[left] {
+		small = left
+	}
+	if right < nlen && nums[small] > nums[right] {
+		small = right
+	}
+
+	if small != i {
+		swap(nums, i, small)
+		heapify(nums, small, nlen)
+	}
+}
+
+func findKthLargest(nums []int, k int) int {
+	nlen := len(nums)
+
+	heap := make([]int, k)
+	for i := 0; i < k; i++ {
+		heap[0] = nums[i]
+		heapify(heap, 0, k)
+	}
+
+	for i := k; i < nlen; i++ {
+		if nums[i] > heap[0] {
+			heap[0] = nums[i]
+			heapify(heap, 0, k)
+		}
+	}
+
+	return heap[0]
+}
+
+func subsets(nums []int) [][]int {
+	res := make([][]int, 0)
+	var backtrack func(nums []int, start int, path []int)
+	backtrack = func(nums []int, start int, path []int) {
+		res = append(res, append([]int{}, path...))
+
+		for i := start; i < len(nums); i++ {
+			path = append(path, nums[i])
+			backtrack(nums, i+1, path)
+			path = path[:len(path)-1]
+		}
+	}
+
+	backtrack(nums, 0, []int{})
+	return res
+}
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+func isPalindrome(head *ListNode) bool {
+	left := head
+	res := true
+	var traverse func(head *ListNode)
+
+	traverse = func(head *ListNode) {
+		if head == nil {
+			return
+		}
+
+		traverse(head.Next)
+		res = res && left.Val == head.Val
+		left = left.Next
+	}
+
+	traverse(head)
+	return res
+}
+
+type TreeNode struct {
+	Val         int
+	Left, Right *TreeNode
+}
+
+func inorderSuccessor(root *TreeNode, p *TreeNode) *TreeNode {
+	st := []*TreeNode{}
+	var cur *TreeNode = root
+
+	for len(st) != 0 || cur != nil {
+		for cur != nil {
+			st = append(st, cur)
+			cur = cur.Left
+		}
+
+		cur = st[len(st)-1]
+		st = st[:len(st)-1]
+		if p == cur {
+			break
+		}
+
+		cur = cur.Right
+	}
+
+	if len(st) == 0 {
+		return nil
+	}
+	return st[len(st)-1]
+}
+
+func isValidBST(root *TreeNode) bool {
+	var dfs func(root *TreeNode, low, high int) bool
+	dfs = func(root *TreeNode, low, high int) bool {
+		if root == nil {
+			return true
+		}
+
+		if root.Val >= high || root.Val <= low {
+			return false
+		}
+
+		return dfs(root.Left, low, root.Val) && dfs(root.Right, root.Val, high)
+	}
+
+	return dfs(root, math.MinInt16, math.MaxInt16)
+}
+
+func isBalanced(root *TreeNode) bool {
+	var res bool
+	var depth func(root *TreeNode) int
+	depth = func(root *TreeNode) int {
+		if root == nil {
+			return 0
+		}
+		if root.Left == nil && root.Right == nil {
+			return 1
+		}
+
+		l := depth(root.Left)
+		r := depth(root.Right)
+
+		if l-r > 1 || r-l > 1 {
+			res = false
+		}
+		return max(l, r) + 1
+	}
+
+	depth(root)
+	return res
+}
+
+func depth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	if root.Left == nil && root.Right == nil {
+		return 1
+	}
+
+	l := depth(root.Left)
+	r := depth(root.Right)
+
+	if l-r > 1 || r-l > 1 {
+
+	}
+	return max(l, r) + 1
+}
+
+// func max(a, b int) int {
+// 	if a < b {
+// 		return b
+// 	}
+// 	return a
+// }
