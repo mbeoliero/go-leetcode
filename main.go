@@ -445,34 +445,32 @@ func main() {
 	// fmt.Println(trap([]int{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}))
 	// t := 1 << 3
 	// s := 16 >> 2 & 1
-	fmt.Printf("%T", '1')
+	fmt.Println(myAtoi("42"))
 }
 
-func trap(height []int) int {
-	res := 0
-	for i := 1; i < len(height)-1; i++ {
-		left, right := i-1, i+1
-		if height[left] > height[i] && height[right] > height[i] {
-			fmt.Println("i: res: ", i, res)
-			j := left
-			for ; j >= 0 && height[j] >= height[j+1]; j-- {
-			}
-			left = j + 1
+func myAtoi(s string) int {
+	num := 0
+	sign := 1
+	i := 0
 
-			j = right
-			for ; j < len(height)-1 && height[j] >= height[j-1]; j++ {
-			}
-			right = j - 1
+	for i = 0; i < len(s); i++ {
+		if s[i] == '-' {
+			sign = -1
+			i++
+			break
+		}
 
-			fmt.Println(left, right)
-			temp := 0
-			for j = left + 1; j < right; j++ {
-				temp += height[j]
-			}
-			fmt.Println(temp)
-
-			res += min(height[left], height[right])*(right-left-1) - temp
+		if s[i] > '0' && s[i] <= '9' {
+			break
 		}
 	}
-	return res
+	fmt.Println(i)
+
+	for i < len(s) && (s[i] >= '0' && s[i] <= '9') {
+		fmt.Println(num, s[i], '0')
+		num = num*10 + int(s[i]-'0')
+		i++
+	}
+	fmt.Println(num)
+	return sign * num
 }
