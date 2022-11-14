@@ -2,7 +2,6 @@ package temp
 
 import (
 	"math"
-	"sort"
 )
 
 func reverseWords(s string) string {
@@ -117,23 +116,23 @@ func (this *RandomizedSet) Remove(val int) bool {
 var memo [][]int
 var keyMap map[byte][]int
 
-func findRotateSteps(ring string, key string) int {
-	m, n := len(ring), len(key)
-	memo = make([][]int, m)
-	for i := 0; i < m; i++ {
-		memo[i] = make([]int, n)
-	}
+// func findRotateSteps(ring string, key string) int {
+// 	m, n := len(ring), len(key)
+// 	memo = make([][]int, m)
+// 	for i := 0; i < m; i++ {
+// 		memo[i] = make([]int, n)
+// 	}
 
-	keyMap = make(map[byte][]int)
-	for i := 0; i < m; i++ {
-		if _, ok := keyMap[ring[i]]; !ok {
-			keyMap[ring[i]] = make([]int, 0)
-		}
-		keyMap[ring[i]] = append(keyMap[ring[i]], i)
-	}
+// 	keyMap = make(map[byte][]int)
+// 	for i := 0; i < m; i++ {
+// 		if _, ok := keyMap[ring[i]]; !ok {
+// 			keyMap[ring[i]] = make([]int, 0)
+// 		}
+// 		keyMap[ring[i]] = append(keyMap[ring[i]], i)
+// 	}
 
-	return dp(ring, 0, key, 0)
-}
+// 	return dp(ring, 0, key, 0)
+// }
 
 var res int
 
@@ -209,23 +208,23 @@ func isdigit(c byte) bool {
 	return c > '0' && c < '9'
 }
 
-func canPartitionKSubsets(nums []int, k int) bool {
-	sum := 0
-	for _, n := range nums {
-		sum += n
-	}
-	if sum%k != 0 {
-		return false
-	}
-	target := sum / k
+// func canPartitionKSubsets(nums []int, k int) bool {
+// 	sum := 0
+// 	for _, n := range nums {
+// 		sum += n
+// 	}
+// 	if sum%k != 0 {
+// 		return false
+// 	}
+// 	target := sum / k
 
-	sort.Slice(nums, func(i, j int) bool {
-		return nums[i] > nums[j]
-	})
+// 	sort.Slice(nums, func(i, j int) bool {
+// 		return nums[i] > nums[j]
+// 	})
 
-	bucket := make([]int, k)
-	return backtrack(nums, bucket, target, 0)
-}
+// 	bucket := make([]int, k)
+// 	return backtrack(nums, bucket, target, 0)
+// }
 
 func solveSudoku(board [][]byte) {
 	backtrack(board, 0, 0)
