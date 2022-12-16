@@ -18,6 +18,8 @@ func minNumberOfSemesters(n int, relations [][]int, k int) int {
 	for state := 0; state < (1 << n); state++ {
 		dp[state] = 2 << 32
 	}
+
+	// cnt 表示 i 中包含 1 的个数，即需要上多少课程
 	cnt := make([]int, 1<<n)
 	for i := 0; i < 1<<n; i++ {
 		cnt[i] = cnt[i>>1] + (i & 1)

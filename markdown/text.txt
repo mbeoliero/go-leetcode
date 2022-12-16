@@ -6,6 +6,13 @@ es
 限流和熔断
 页缓存、零拷贝、顺序写入、批量操作、全异步
 
+指针逃逸、动态类型(interface、slice)、闭包逃逸、栈空间不足逃逸
+
+ES：Term Index -> Term Dictionary -> Postion List
+FST技术（图相关）、压缩技术（大数变小数）、联合索引使用跳表
+
+Redis Hash/ZSet -> Listpack / (HashMap/Skiplist)
+
 电子科大毕业，毕业去了虾皮，当时进去的时候 shopee其实处于一个高速发展的时期，积极扩展世界范围的业务
 我所处的部门是O2O，产品线是数字产品，主要服务于东南亚七个国家的一些日常生活
 支柱业务是账单和优惠卷，其他的还有电影票、演唱会票、黄金、捐款、ota机票等
@@ -36,17 +43,16 @@ es
 4. 缓存升级
 
 
-// # Q: 
-// Given a 2D board and a list of words from the dictionary, find all words in the board.
-// Each word must be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. 
-// The same letter cell may not be used more than once in a word.
+索引失效：
+1. 联合索引最左匹配失效
+2. 使用运算（字段加减、函数运算、类型转换）
+3. like %开头
+4. 不等于、not null、or操作
 
-// For example, given words = ["oath","pea","eat","rain"] and board =
-// [
-//   ['o','a','a','n'],
-//   ['e','t','a','e'],
-//   ['i','h','k','r'],
-//   ['i','f','l','v']
-// ]
+缓存雪崩：大量key失效，打到db，解决方案：随机过期时间、不过期
+缓存击穿：热点数据过期，打到db，解决方案：互斥锁、不过期后台刷新
+缓存穿透：既不在redis也不在db，解决方案：非法校验、拦截器、空值默认值
 
-// Output should be ["eat","oath"]
+select INTERVAL(speed,1000,2000,4000,8000) as i_s, sum(count)
+from a_speed_table
+groupby i_s
