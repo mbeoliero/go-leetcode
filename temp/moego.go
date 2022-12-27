@@ -223,6 +223,6 @@ func TestCreateAsyncWorker(factory func(ctx context.Context, capacity int) func(
 	}
 }
 
-func main() {
-	TestCreateAsyncWorker(CreateAsyncWorker)
-}
+// func main() {
+// 	TestCreateAsyncWorker(CreateAsyncWorker)
+// }
