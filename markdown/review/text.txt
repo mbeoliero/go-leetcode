@@ -70,6 +70,42 @@ Redis Hash/ZSet -> Listpack / (HashMap/Skiplist)
 
 先熟悉公司业务，在业务基础上磨练技术，磨练完后再拓宽自己的技术。
 
+geohash key: 导致缓存框架不适配
+印尼时区: 印尼三个时区买电影票，服务器时间计算
+mysql泰文编码: 字符集默认是utf8mb4，单列排序规则为utf8_general_ci，修改单列编码为utf8_unicode_ci
+utf8_unicode_ci的最主要的特色是支持扩展，即当把一个字母看作与其它字母组合相等时。例如，在德语和一些其它语言中‘ß'等于‘ss'。
+utf8_general_ci是一个遗留的 校对规则，不支持扩展。它仅能够在字符之间进行逐个比较。这意味着utf8_general_ci校对规则进行的比较速度很快，但是与使用utf8_unicode_ci的 校对规则相比，比较正确性较差）。
+
+protobuf oneof：下载文件，根据文件名识别
+gin validate：proto文件添加tag、gin添加validator
+多泳道外部访问存储map：访问外部时，tag丢失
+golang format：团队协作，format凌乱问题
+docker编译, goland remote：confluence kafka go导致的本地环境配置困难
+多语言：1. 直接存储transfy key 2. 数据库存储_local字段 3. 单独拉一张表
+
 select INTERVAL(speed,1000,2000,4000,8000) as i_s, sum(count)
 from a_speed_table
 groupby i_s
+
+Znode 树形结构、ZAB协议、心跳检测、Watch机制
+ZK选举：1. epoch(逻辑时钟，表示投票轮数) > zxid(此值越大表示数据越新) > myid(编号越大权重越大)
+权衡伸缩性和高吞吐率，引入Observer，Observer不参与投票；Observers接受客户端的连接，并将写请求转发给leader节点
+
+配置中心：灰度发布、版本管理&回滚、多环境多集群、格式校验、配置实时生效、权限管理
+
+# popclip
+  name: Easydict
+  icon: search E
+  key combo: shift control L
+
+test code server
+
+Moego 二面挂
+伴伴 一面挂
+minimax hr
+klook 薪资太低
+fuse 薪资太低+python
+micro focus
+Kong
+Ones
+flexport
